@@ -3,24 +3,33 @@
 <html>
 <head>
   <title>County Data Lookup</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+
+  select {
+    padding: 8px;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
+  /* Mobile responsive font size and padding */
+  @media (max-width: 768px) {
+    select, button {
+      font-size: 20px;
+      padding: 12px 20px;
     }
-select {
-  padding: 8px;
-  margin-right: 10px;
-  font-size: 18px;  /* Increased font size */
-}
+  }
+</style>
 
-button {
-  padding: 8px 16px;
-  margin-right: 10px;
-  font-size: 18px;  /* Increased font size */
-}
-
-  </style>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
     const sheetID = '1Gh88mTjZFxaTCXHkjpnUm5zxfrFJtPMD9JuM7PFWi-Y';
