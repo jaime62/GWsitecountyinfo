@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LOT# County Data Lookup</title>
+  <title>County Data Lookup</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -63,7 +63,7 @@
 
       const entry = siteData.find(item => item.lot.toString() === selectedLot);
       if (!entry) {
-        alert("Please select a valid LOT#.");
+        alert("Please select a valid Lot#.");
         return;
       }
 
@@ -77,7 +77,7 @@
       if (url) {
         window.open(url, '_blank');
       } else {
-        alert("No URL found for the selected LOT# and data type.");
+        alert("No URL found for the selected Lot# and data type.");
       }
     }
 
@@ -90,11 +90,11 @@
 <body>
  <div style="text-align: center;">
 
-  <h2>County Information by LOT#</h2>
+  <h2>Search County Information by Lot#</h2>
 
-  <label for="lotDropdown">Select LOT#:</label>
+  <label for="lotDropdown">Select Lot#:</label>
   <select id="lotDropdown">
-    <option value="">-- Choose LOT# --</option>
+    <option value="">-- Choose Lot# --</option>
   </select>
 
   <label for="dataTypeDropdown">Select Data Type:</label>
@@ -103,7 +103,7 @@
     <option value="tax">Tax data</option>
     <option value="cad">Appraisal data</option>
   </select>
-<BR><BR>
+<br><br><br>
   <button onclick="openURL()">Go</button>
   <button onclick="resetForm()">Reset</button>
  </div>
