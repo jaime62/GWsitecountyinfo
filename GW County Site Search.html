@@ -59,7 +59,7 @@
       const selectedLot = document.getElementById('lotDropdown').value;
       const selectedType = document.getElementById('dataTypeDropdown').value;
 
-      const entry = siteData.find(item => item.lot === selectedLot);
+const entry = siteData.find(item => item.lot.toString() === selectedLot);
       if (!entry) {
         alert("Please select a valid LOT#.");
         return;
