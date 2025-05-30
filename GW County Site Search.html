@@ -1,12 +1,19 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LOT# Data Viewer</title>
+  <title>LOT# County Data Lookup</title>
   <style>
-    body { font-family: Arial; margin: 20px; }
-    select { padding: 8px; margin-right: 10px; }
-    iframe { width: 100%; height: 600px; margin-top: 20px; border: 1px solid #ccc; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    select {
+      padding: 8px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 8px 16px;
+    }
   </style>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
@@ -48,32 +55,40 @@
       });
     }
 
-    function updateIframe() {
+    function openURL() {
       const selectedLot = document.getElementById('lotDropdown').value;
       const selectedType = document.getElementById('dataTypeDropdown').value;
 
       const entry = siteData.find(item => item.lot === selectedLot);
-      if (!entry) return;
+      if (!entry) {
+        alert("Please select a valid LOT#.");
+        return;
+      }
 
       const url = selectedType === 'tax' ? entry.taxURL : entry.cadURL;
-      document.getElementById('iframeView').src = url || '';
+
+      if (url) {
+        window.open(url, '_blank');
+      } else {
+        alert("No URL found for the selected LOT# and data type.");
+      }
     }
   </script>
 </head>
 <body>
-  <h2>View LOT# Data</h2>
+  <h2>County Information by LOT#</h2>
 
   <label for="lotDropdown">Select LOT#:</label>
-  <select id="lotDropdown" onchange="updateIframe()">
+  <select id="lotDropdown">
     <option value="">-- Choose LOT# --</option>
   </select>
 
   <label for="dataTypeDropdown">Select Data Type:</label>
-  <select id="dataTypeDropdown" onchange="updateIframe()">
+  <select id="dataTypeDropdown">
     <option value="tax">Tax data</option>
     <option value="cad">Appraisal data</option>
   </select>
 
-  <iframe id="iframeView" src=""></iframe>
+  <button onclick="openURL()">Go</button>
 </body>
 </html>
