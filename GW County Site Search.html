@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LOT# Data Viewer</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    select { padding: 8px; margin-right: 10px; }
+    iframe { width: 100%; height: 600px; margin-top: 20px; border: 1px solid #ccc; }
+  </style>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    const sheetID = '1Gh88mTjZFxaTCXHkjpnUm5zxfrFJtPMD9JuM7PFWi-Y';
+    const sheetName = 'Sheet1';
+    const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&headers=1`;
+
+    let siteData = [];
+
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(fetchData);
+
+    function fetchData() {
+      const query = new google.visualization.Query(queryURL);
+      query.send(function(response) {
+        if (response.isError()) {
+          alert('Error: ' + response.getMessage());
+          return;
+        }
+
+        const data = response.getDataTable();
+        const lotDropdown = document.getElementById('lotDropdown');
+        siteData = [];
+
+        for (let i = 0; i < data.getNumberOfRows(); i++) {
+          const lot = data.getValue(i, 0);
+          const taxURL = data.getValue(i, 1);
+          const cadURL = data.getValue(i, 2);
+
+          if (lot) {
+            siteData.push({ lot, taxURL, cadURL });
+
+            const option = document.createElement('option');
+            option.value = lot;
+            option.textContent = lot;
+            lotDropdown.appendChild(option);
+          }
+        }
+      });
+    }
+
+    function updateIframe() {
+      const selectedLot = document.getElementById('lotDropdown').value;
+      const selectedType = document.getElementById('dataTypeDropdown').value;
+
+      const entry = siteData.find(item => item.lot === selectedLot);
+      if (!entry) return;
+
+      const url = selectedType === 'tax' ? entry.taxURL : entry.cadURL;
+      document.getElementById('iframeView').src = url || '';
+    }
+  </script>
+</head>
+<body>
+  <h2>View LOT# Data</h2>
+
+  <label for="lotDropdown">Select LOT#:</label>
+  <select id="lotDropdown" onchange="updateIframe()">
+    <option value="">-- Choose LOT# --</option>
+  </select>
+
+  <label for="dataTypeDropdown">Select Data Type:</label>
+  <select id="dataTypeDropdown" onchange="updateIframe()">
+    <option value="tax">Tax data</option>
+    <option value="cad">Appraisal data</option>
+  </select>
+
+  <iframe id="iframeView" src=""></iframe>
+</body>
+</html>
