@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,7 @@
     }
     button {
       padding: 8px 16px;
+      margin-right: 10px;
     }
   </style>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -59,9 +61,14 @@
       const selectedLot = document.getElementById('lotDropdown').value;
       const selectedType = document.getElementById('dataTypeDropdown').value;
 
-const entry = siteData.find(item => item.lot.toString() === selectedLot);
+      const entry = siteData.find(item => item.lot.toString() === selectedLot);
       if (!entry) {
         alert("Please select a valid LOT#.");
+        return;
+      }
+
+      if (!selectedType) {
+        alert("Please select a data type.");
         return;
       }
 
@@ -72,6 +79,11 @@ const entry = siteData.find(item => item.lot.toString() === selectedLot);
       } else {
         alert("No URL found for the selected LOT# and data type.");
       }
+    }
+
+    function resetForm() {
+      document.getElementById('lotDropdown').selectedIndex = 0;
+      document.getElementById('dataTypeDropdown').selectedIndex = 0;
     }
   </script>
 </head>
@@ -85,10 +97,12 @@ const entry = siteData.find(item => item.lot.toString() === selectedLot);
 
   <label for="dataTypeDropdown">Select Data Type:</label>
   <select id="dataTypeDropdown">
+    <option value="" selected disabled>Select type</option>
     <option value="tax">Tax data</option>
     <option value="cad">Appraisal data</option>
   </select>
 
   <button onclick="openURL()">Go</button>
+  <button onclick="resetForm()">Reset</button>
 </body>
 </html>
